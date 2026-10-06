@@ -1,0 +1,3 @@
+export const STAFF_API=process.env.NEXT_PUBLIC_API_URL||"http://localhost:8002";
+export const csrfCookie=()=>decodeURIComponent(document.cookie.split("; ").find(x=>x.startsWith("csrftoken="))?.split("=")[1]||"");
+export async function staffFetch(path:string,init:RequestInit={}){if(init.method&&init.method!=="GET"){await fetch(`${STAFF_API}/api/v1/auth/csrf/`,{credentials:"include"});init.headers={...(init.headers||{}),"X-CSRFToken":csrfCookie()}}const response=await fetch(`${STAFF_API}${path}`,{...init,credentials:"include"});if(!response.ok)throw new Error(`Request failed (${response.status})`);return response.status===204?null:response.json()}

@@ -1,0 +1,25 @@
+.sectionTight{padding-top:0}
+.filters{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.pagination{display:flex;justify-content:center;align-items:center;gap:1rem;margin-top:2rem}
+.pagination a{background:var(--ink);color:white;padding:.7rem 1rem;font-weight:750}
+.gallery{min-width:0}
+.galleryCount{position:absolute;right:1rem;bottom:1rem;background:rgba(16,25,22,.85);color:white;padding:.4rem .65rem;font-size:.78rem}
+.thumbnails{display:flex;gap:.5rem;overflow-x:auto;padding-top:.6rem}
+.thumbnails button{position:relative;flex:0 0 88px;height:64px;padding:0;background:#dfe4de;border:2px solid transparent}
+.thumbnails button[aria-pressed=true]{border-color:var(--ink)}
+.thumbnails img{object-fit:cover}
+.vehicleVideo{margin:3rem 0 0;padding:2rem;background:var(--dark);color:white}
+.vehicleVideo h2{font-size:2rem}
+.vehicleVideo a{text-decoration:underline;color:var(--lime)}
+.cardSkeleton{height:390px;background:white;border:1px solid var(--line);padding:0 1rem}
+.cardSkeleton div{height:250px;background:linear-gradient(90deg,#e8ebe6,#f5f6f2,#e8ebe6);margin:0 -1rem 1rem}
+.cardSkeleton span{display:block;width:60%;height:24px;background:#e8ebe6}
+.dataTable{width:100%;border-collapse:collapse;background:white;border:1px solid var(--line)}
+.dataTable th,.dataTable td{text-align:left;padding:.85rem;border-bottom:1px solid var(--line);vertical-align:top}
+.dataTable th{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.toolbar{display:flex;gap:.6rem;align-items:center;margin-bottom:1rem;flex-wrap:wrap}
+.toolbar select{width:auto;min-width:170px}
+.statusChip{display:inline-flex;padding:.25rem .5rem;background:#edf0eb;font-size:.75rem;font-weight:750;text-transform:capitalize}
+.statusChip.failed{background:#f9ddd6;color:#8b2e1e}
+.statusChip.processed,.statusChip.succeeded{background:#edf5d1;color:#344614}
+@media(max-width:700px){.dataTable{display:block;overflow-x:auto}.thumbnails button{flex-basis:72px;height:54px}}

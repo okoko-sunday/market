@@ -1,0 +1,1 @@
+export default function Loading(){return <main className="listingPage" aria-busy="true"><div className="pageIntro"><div><span className="eyebrow">Marketplace inventory</span><h1>Cars for sale</h1></div></div><div className="vehicleGrid">{[1,2,3,4,5,6].map(x=><div className="cardSkeleton" key={x}><div/><span/></div>)}</div></main>}

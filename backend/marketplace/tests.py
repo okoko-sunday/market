@@ -39,7 +39,8 @@ class MarketplaceTests(TestCase):
     def test_buyer_validation_and_imported_fields_have_no_write_api(self):
         self.vehicle_id=uuid.uuid4(); self.event("vehicle.published.v1",self.data()); listing=MarketplaceListing.objects.get(); decide(listing.id,"approved","ok",self.user)
         r=APIClient().post("/api/v1/buyer-requests/",{"listing":str(listing.id),"kind":"offer","name":"Buyer","email":"b@example.test","phone":"0800"},format="json"); self.assertEqual(r.status_code,400)
-        self.assertEqual(APIClient().patch(f"/api/v1/staff/listings/{listing.id}/",{"price":"1"},format="json").status_code,404)
+        client=APIClient(); client.force_authenticate(self.user)
+        self.assertEqual(client.patch(f"/api/v1/staff/listings/{listing.id}/",{"price":"1"},format="json").status_code,405)
     def test_unauthorized_cannot_moderate(self):
         self.vehicle_id=uuid.uuid4(); self.event("vehicle.published.v1",self.data()); listing=MarketplaceListing.objects.get(); self.assertEqual(APIClient().post(f"/api/v1/staff/listings/{listing.id}/moderate/",{"decision":"approved"},format="json").status_code,403)
 

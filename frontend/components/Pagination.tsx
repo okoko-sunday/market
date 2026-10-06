@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function Pagination({page,pages,params}:{page:number;pages:number;params:Record<string,string|undefined>}){if(pages<=1)return null;function href(next:number){const q=new URLSearchParams(Object.entries(params).filter((x):x is [string,string]=>Boolean(x[1])));q.set("page",String(next));return `/vehicles?${q}`}return <nav className="pagination" aria-label="Inventory pages">{page>1&&<Link href={href(page-1)}>Previous</Link>}<span>Page {page} of {pages}</span>{page<pages&&<Link href={href(page+1)}>Next</Link>}</nav>}

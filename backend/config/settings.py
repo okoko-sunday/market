@@ -30,6 +30,8 @@ PUBLIC_API_URL=os.getenv("PUBLIC_API_URL","http://localhost:8002")
 INTEGRATION_SOURCE_SLUG=os.getenv("INTEGRATION_SOURCE_SLUG","dealer-platform")
 INTEGRATION_WEBHOOK_SECRET=os.getenv("INTEGRATION_WEBHOOK_SECRET","local-marketplace-secret")
 INTEGRATION_PUBLIC_BASE_URL=os.getenv("INTEGRATION_PUBLIC_BASE_URL","http://localhost:8001")
+INTEGRATION_SNAPSHOT_URL=os.getenv("INTEGRATION_SNAPSHOT_URL","")
+INTEGRATION_SNAPSHOT_TOKEN=os.getenv("INTEGRATION_SNAPSHOT_TOKEN","")
 if os.getenv("AWS_STORAGE_BUCKET_NAME"):
     STORAGES={"default":{"BACKEND":"storages.backends.s3.S3Storage"},"staticfiles":{"BACKEND":"whitenoise.storage.CompressedManifestStaticFilesStorage"}}
     AWS_S3_ENDPOINT_URL=os.getenv("AWS_S3_ENDPOINT_URL"); AWS_S3_REGION_NAME=os.getenv("AWS_S3_REGION_NAME","auto"); AWS_S3_CUSTOM_DOMAIN=os.getenv("AWS_S3_CUSTOM_DOMAIN")

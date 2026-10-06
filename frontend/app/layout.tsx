@@ -1,6 +1,7 @@
 import "@fontsource-variable/manrope";
 import "@fontsource-variable/newsreader";
 import "./globals.css";
+import "./extras.css";
 import Link from "next/link";
 import type {Metadata} from "next";
 export const metadata:Metadata={title:{default:"Motori — Cars worth your time",template:"%s · Motori"},description:"Browse dealer and marketplace vehicles across Nigeria with clear seller information."};

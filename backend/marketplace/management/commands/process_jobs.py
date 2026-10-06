@@ -1,5 +1,6 @@
 import time
 from django.core.management.base import BaseCommand
+from django.core.management import call_command
 from django.db import transaction
 from django.utils import timezone
 from marketplace.integration import process_event
@@ -18,6 +19,7 @@ class Command(BaseCommand):
                     job.status="running"; job.locked_at=timezone.now(); job.attempts+=1; job.save()
                 try:
                     if job.kind=="process_inbox_event": process_event(job.payload["event_id"])
+                    elif job.kind=="reconcile_source": call_command("reconcile_source",job.payload["source"])
                     else: raise ValueError(f"Unknown job kind {job.kind}")
                     job.status="succeeded"; job.last_error=""
                 except Exception as exc:

@@ -1,4 +1,4 @@
-import json, urllib.request
+import json, urllib.request, uuid, hashlib
 from django.core.management.base import BaseCommand,CommandError
 from django.db import transaction
 from django.utils import timezone
@@ -18,8 +18,11 @@ class Command(BaseCommand):
                 with urllib.request.urlopen(req,timeout=20) as response: page=json.load(response)
                 if not isinstance(page.get("items"),list): raise ValueError("Invalid snapshot page")
                 for item in page["items"]:
-                    event_id=item.get("event_id") or item["snapshot_id"]
-                    event,created=IntegrationInboxEvent.objects.get_or_create(source=source,event_id=event_id,defaults={"event_type":item["event_type"],"occurred_at":item.get("occurred_at",timezone.now().isoformat()),"payload":item["data"],"body_digest":item.get("digest",str(event_id).replace("-",""))[:64]})
+                    identity=item.get("event_id") or item["snapshot_id"]
+                    try: event_id=uuid.UUID(str(identity))
+                    except ValueError: event_id=uuid.uuid5(source.id,str(identity))
+                    digest=item.get("digest") or hashlib.sha256(json.dumps(item,sort_keys=True,separators=(",",":")).encode()).hexdigest()
+                    event,created=IntegrationInboxEvent.objects.get_or_create(source=source,event_id=event_id,defaults={"event_type":item["event_type"],"occurred_at":item.get("occurred_at",timezone.now().isoformat()),"payload":item["data"],"body_digest":digest})
                     if created: BackgroundJob.objects.create(kind="process_inbox_event",payload={"event_id":str(event.id)}); run.changed_count+=1
                     run.seen_count+=1
                 cursor=page.get("next_cursor"); run.checkpoint=page.get("checkpoint",{}); run.save()
