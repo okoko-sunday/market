@@ -1,0 +1,43 @@
+openapi: 3.1.0
+info: {title: Motori Marketplace API, version: 1.0.0}
+servers: [{url: /api}]
+paths:
+  /v1/vehicles/:
+    get:
+      summary: Search eligible public inventory
+      parameters:
+        - {in: query, name: q, schema: {type: string}}
+        - {in: query, name: make, schema: {type: string}}
+        - {in: query, name: location, schema: {type: string}}
+        - {in: query, name: page, schema: {type: integer, minimum: 1}}
+        - {in: query, name: page_size, schema: {type: integer, minimum: 1, maximum: 48}}
+      responses: {'200': {description: Paginated vehicles}}
+  /v1/vehicles/{id}/:
+    get:
+      summary: Get an eligible listing, including an approved sold listing
+      parameters: [{in: path, name: id, required: true, schema: {type: string, format: uuid}}]
+      responses: {'200': {description: Vehicle}, '404': {description: Not public}}
+  /v1/dealers/:
+    get: {summary: List active dealers with public inventory, responses: {'200': {description: Paginated dealers}}}
+  /v1/dealers/{slug}/:
+    get:
+      summary: Dealer storefront
+      parameters: [{in: path, name: slug, required: true, schema: {type: string}}]
+      responses: {'200': {description: Dealer and inventory}}
+  /v1/buyer-requests/:
+    post: {summary: Create an inquiry, viewing request, or offer, responses: {'201': {description: Persisted request}, '400': {description: Validation error}}}
+  /integrations/v1/dealer-events/:
+    post:
+      summary: Durably receive a signed dealer event
+      parameters:
+        - {in: header, name: X-Event-ID, required: true, schema: {type: string, format: uuid}}
+        - {in: header, name: X-Showroom-Signature, required: true, schema: {type: string}}
+      responses: {'202': {description: Accepted}, '200': {description: Duplicate}, '401': {description: Invalid signature}, '409': {description: Event ID collision}}
+  /v1/staff/listings/{id}/moderate/:
+    post:
+      summary: Record an authorized moderation decision
+      security: [{cookieSession: []}]
+      parameters: [{in: path, name: id, required: true, schema: {type: string, format: uuid}}]
+      responses: {'200': {description: Decision recorded}, '403': {description: Missing capability}}
+components:
+  securitySchemes: {cookieSession: {type: apiKey, in: cookie, name: sessionid}}

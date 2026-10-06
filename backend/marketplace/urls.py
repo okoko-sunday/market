@@ -1,0 +1,3 @@
+from django.urls import path
+from .api import views
+urlpatterns=[path("v1/auth/csrf/",views.csrf),path("v1/auth/login/",views.session_login),path("v1/auth/logout/",views.session_logout),path("v1/auth/me/",views.session_me),path("v1/vehicles/",views.vehicles),path("v1/vehicles/<uuid:listing_id>/",views.vehicle_detail),path("v1/dealers/",views.dealers),path("v1/dealers/<slug:slug>/",views.dealer_detail),path("v1/buyer-requests/",views.buyer_request),path("integrations/v1/dealer-events/",views.dealer_event),path("v1/staff/overview/",views.staff_overview),path("v1/staff/listings/",views.staff_listings),path("v1/staff/listings/<uuid:listing_id>/moderate/",views.staff_moderate),path("v1/staff/owned-vehicles/",views.staff_owned),path("sitemap.xml",views.sitemap)]

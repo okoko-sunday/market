@@ -1,0 +1,1 @@
+import Link from "next/link";export default function NotFound(){return <main className="notFound"><span className="eyebrow">Unavailable</span><h1>This vehicle is no longer public.</h1><p>It may have been withdrawn, removed, or be awaiting another review.</p><Link className="button" href="/vehicles">Browse available cars</Link></main>}
